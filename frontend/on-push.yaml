@@ -70,7 +70,7 @@ jobs:
         with:
           push: true
           build-args: BUILD_CMD=${{ inputs.environment }}
-          tags: ${{ secrets.DOCKER_USERNAME }}/${{ env.REPO_NAME }}:${{ env.VERSION }},${{ secrets.DOCKER_USERNAME }}/${{ env.REPO_NAME }}:latest
+          tags: ${{ secrets.DOCKER_USERNAME }}/${{ env.REPO_NAME }}:${{ env.VERSION }}-${{ inputs.environment }}
 
       - name: Checkout to Manifests Repo
         uses: actions/checkout@v3
@@ -91,7 +91,7 @@ jobs:
       - run: pip install -r ./scripts/requirements.txt
 
       - name: Set Image Tag
-        run: python ./scripts/set_tag.py -y ./environments/${{ inputs.environment }}/values-${{ env.REPO_NAME }}.yaml -n ${{ env.VERSION }}
+        run: python ./scripts/set_tag.py -y ./environments/${{ inputs.environment }}/values-${{ env.REPO_NAME }}.yaml -n ${{ env.VERSION }}-${{ inputs.environment }}
 
       - name: Commit and push changes
         run: |
