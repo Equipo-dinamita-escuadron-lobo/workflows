@@ -1,4 +1,4 @@
-name: "Build Docker image & push to Docker Hub on push to develop branch"
+name: "Promotes dev environment tag to test environment"
 on:
   workflow_call:
     inputs:
