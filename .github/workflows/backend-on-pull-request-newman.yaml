@@ -1,0 +1,49 @@
+name: "Run integration tests on pull request to develop branch"
+on:
+  workflow_call:
+    secrets:
+      IT_BASE_URL_RABBIT:
+        description: "Base URL for RabbitMQ service in integration tests"
+        required: true
+      IT_BASE_URL:
+        description: "Base URL for microservices api in integration tests"
+        required: true
+      IT_USERNAME:
+        description: "Username for authentication in rabbitmq in integration tests"
+        required: true
+      IT_PASSWORD:
+        description: "Password for authentication in rabbitmq in integration tests"
+        required: true
+      IT_KEYCLOAK_USER:
+        description: "Keycloak username for integration tests" 
+        required: true
+      IT_KEYCLOAK_PASSWORD:
+        description: "Keycloak password for integration tests" 
+        required: true
+
+
+
+jobs:
+  test:
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Checkout code
+        uses: actions/checkout@master
+      - name: Run Newman tests
+        uses: matt-ball/newman-action@master
+        with:
+          collection: .postman/collection.json
+          environment: .postman/environment.json
+          envVar: |
+            [
+              { "key": "baseUrlRabbit", "value": "${{ secrets.IT_BASE_URL_RABBIT }}" },
+              { "key": "baseUrl", "value": "${{ secrets.IT_BASE_URL }}" },
+              { "key": "Username", "value": "${{ secrets.IT_USERNAME }}" },
+              { "key": "Password", "value": "${{ secrets.IT_PASSWORD }}" },
+              { "key": "keycloakUser", "value": "${{ secrets.IT_KEYCLOAK_USER }}" },
+              { "key": "keycloakPassword", "value": "${{ secrets.IT_KEYCLOAK_PASSWORD }}" }
+            ]
+
