@@ -15,7 +15,7 @@ jobs:
 
 
   docker:
-    name: Build Docker image and push to Docker Hub
+    name: Promote Docker Image Tag from Dev to Test
     runs-on: ubuntu-latest
     env:
       REPO_NAME: ${{ inputs.repository-name }}
